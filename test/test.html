@@ -1,0 +1,66 @@
+<html>
+<head>
+  <title>innerframe testing</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./qunit-git.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="./qunit-git.js"></script>
+  <!--  <script src="../tableconn_min.js"></script> -->
+  <script src="../jquery.innerframe.js"></script>
+  <script type="text/javascript">
+
+    test( "Is present", function() {
+      ok( typeof $.fn.innerframe != "undefined", "Global is here!" );
+      ok( typeof $("#div1").innerframe != "undefined", "Global is applied to elements!" );
+    });
+
+    function basic_test(data){
+      expect(2);
+      ok($("#qunit").length > 0, "Document is still there")
+      ok($("#div1, #div2").length == 2, "Divs still there")
+
+      //asyncronous methods needs a waiting time
+      setTimeout(function(){
+
+        test( "Contain a iframe inside", function() {
+          expect(2);
+          ok($("#div1").find("iframe").length == 1 ,"Div1 has a iframe inside")
+          ok($("#div2").find("iframe").length == 1 ,"Div2 has a iframe inside")
+        });
+
+        test( "iFrames has the right content", function() {
+          expect(2);
+          var content1 = $("iframe","#div1").contents().find("html").html();
+          var content2 = $("iframe","#div2").contents().find("html").html();
+          equal( content1, "<head><\/head><body><script src=\".\/doc.write.test.js\"><\/script>Write with doc.write<\/body>" ,"Div1 has the content expected" );
+          equal( content2, "<head><\/head><body>test<\/body>" ,"Div1 has the content expected" );
+        });
+
+        test( "iFrames receives the write options", function() {
+          expect(4);
+          equal( $("iframe","#div1").width(), 300 ,"Div1 has the right width" );
+          equal( $("iframe","#div1").height(), 250 ,"Div1 has the right height" );
+          equal( $("iframe","#div2").css("margin"), "10px" ,"Div2 has the right margin" );
+          equal( $("iframe","#div2").css("background-color"), "rgb(255, 255, 224)" ,"Div2 has the right margin" );
+        });
+
+      },100)
+    }
+
+    test( "Don't rewrite my document!", function() {
+      $('#div1').innerframe('<script src="./doc.write.test.js"><\/script>',{width:"300px",height:"250px",style:{ "border":"1px solid lightgrey","margin":"10px"}});
+      $('#div2').innerframe('test',{style:{"background-color":"lightyellow","margin":"10px"}});
+      basic_test()
+    });
+
+  </script>
+  <br>
+  <div style="display:block; margin-top:20px; border: 1px dotted gray;">
+    <div id="div1"></div>
+    <div id="div2"></div>
+  </div>
+</body>
+</html>

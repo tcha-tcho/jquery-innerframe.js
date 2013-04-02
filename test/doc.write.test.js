@@ -1,0 +1,1 @@
+document.write("Write with doc.write");
