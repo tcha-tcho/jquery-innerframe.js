@@ -14,7 +14,8 @@
     var $this = $(this);
 
     var rules = {
-      HAS_SCRIPT_TAG: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi
+      //HAS_SCRIPT_TAG: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi
+      HAS_SCRIPT_TAG: /\<script/g
     };
 
     //defaults
@@ -49,23 +50,30 @@
     var $iframe = document.createElement('iframe');
         $iframe.id = $this.attr("id")+"_innerframe_iframe";
         for (option in opts) {
-          $iframe[option] = opts[option];
+          $iframe.setAttribute(option, opts[option]);
         }
         for (css in opts.style) {
           $iframe.style[css] = opts.style[css];
         }
+        window.setTimeout(function(){
+          Private._onReadyIframe();
+        },1);
         $iframe.onload = function(){
           Private._onReadyIframe();
         };
 
     var Private = {
 
-      _write: function(str){
+      _contentWindow: function() {
         if ($iframe.contentWindow.document) {
-          var doc = $iframe.contentWindow.document;
+          return $iframe.contentWindow;  
         } else {
-          var doc = document.frames[$iframe.id].document;
-        };
+          return document.frames[$iframe.id];
+        }
+      },
+
+      _write: function(str){
+        var doc = Private._contentWindow().document;
         doc.write('<html><head></head><body>' + str + '</body></html>');
         if ( rules.HAS_SCRIPT_TAG.test(str) ) {
           addEvent("load", $('body', doc)[0], Private._onReadyInnerIframe);
@@ -81,8 +89,8 @@
       },
 
       _onReadyInnerIframe: function(){
-        $iframe.contentWindow.stop();
-      },
+        Private._contentWindow().stop();
+      }
     };
  
     this.each(function() {
