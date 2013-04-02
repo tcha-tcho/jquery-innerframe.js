@@ -12,9 +12,14 @@
     //var selector
     var $this = $(this);
 
+    var rules = {
+      HAS_SCRIPT_TAG: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi
+    };
+
     //defaults
     var defaults = {
     };
+
 
     //merge dafaults/settings
     var opts = options ? $.extend(defaults, options) : defaults;
@@ -30,7 +35,7 @@
       _write: function(str){
         var doc = $iframe.contentWindow.document;
         doc.write('<html><head></head><body>'+ str+ '</body></html>');
-        if (str.indexOf('<script') != -1 || str.indexOf('src="') != -1) {
+        if ( rules.HAS_SCRIPT_TAG.test(str) ) {
           $('body', doc)[0].addEventListener("load", Private._onReadyInnerIframe, true);
         } else {
           $($('body', doc)[0]).ready(function(){
