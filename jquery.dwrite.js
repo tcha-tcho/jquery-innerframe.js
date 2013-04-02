@@ -1,7 +1,5 @@
 /**
  * Jquery dwrite
- * 
- * JQuery plugin for creating effects known as the "zoetrope" 
  *
  * @author   Bruno Thiago Leite Agutoli <brunotla1@gmail.com>
  * @version  Release: 0.0.1-alpha
@@ -50,13 +48,11 @@
       },
     };
  
-    //call start function
     this.each(function() {
-      //call function start
       $this.append($iframe);
     });
 
-    //returns public functions
+    //returns jquery functions
     return this;
   };
 
