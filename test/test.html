@@ -35,7 +35,7 @@
           expect(3);
           equal( $("iframe","#div1").width(), 300 ,"Div1 has the right width" );
           equal( $("iframe","#div1").height(), 250 ,"Div1 has the right height" );
-          equal( $("iframe","#div2").css("background-color"), "rgb(255, 255, 224)" ,"Div2 has the right background" );
+          ok( /rgb(255, 255, 224)||#FFFFFF/.test($("iframe","#div2").css("background-color")), "Div2 has the right background" );
         });
 
       },100)

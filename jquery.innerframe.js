@@ -19,7 +19,7 @@
       ,height     : "100px"
       ,style      : "" 
       ,scrolling  : "no"
-      ,frameborder: 0 
+      ,frameBorder: "0" 
       ,name       : "" 
       ,onReady    : function(body){}
       // ,sandbox: "allow-same-origin" 
@@ -27,27 +27,16 @@
       ,srcdoc     : "" 
     };
 
-
     //merge dafaults/settings
     var opts = options ? $.extend(defaults, options) : defaults;
-
-    //Internet Explorer don't use addEventListener
-    var addEvent = function(evt, elem, func) {
-      if (elem.addEventListener) {  // W3C DOM
-        elem.addEventListener(evt,function(){
-        },true);
-      } else if (elem.attachEvent) { // IE DOM
-        elem.attachEvent("on"+evt, func);
-      } else { // The rest 
-        elem[evt] = func;
-      }
-    }
 
     //create new iframe
     var $iframe = document.createElement('iframe');
         $iframe.id = $this.attr("id")+"_innerframe_iframe";
         for (option in opts) {
-          $iframe.setAttribute(option, opts[option]);
+          if (typeof opts[option] != 'function') {
+            $iframe.setAttribute(option, opts[option]);
+          }
         }
         window.setTimeout(function(){
           Private._onReadyIframe();
