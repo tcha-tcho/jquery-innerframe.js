@@ -1,7 +1,7 @@
 /**
  * Jquery innerframe
  *
- * @author       Bruno Thiago Leite Agutoli <brunotla1@gmail.com>
+ * @author       Bruno Thiago Leite Agutoli <bruno.agutoli@gmail.com>
  * @collatorated Tcha-Tcho <tchatcho66@hotmail.com>
  * @version      Release: 0.0.1-alpha
  * @license      http://www.gnu.org/licenses/gpl.html GNU GENERAL PUBLIC LICENSE
@@ -34,9 +34,7 @@
     //Internet Explorer don't use addEventListener
     var addEvent = function(evt, elem, func) {
       if (elem.addEventListener) {  // W3C DOM
-        console.log("veio para o listener")
         elem.addEventListener(evt,function(){
-          console.log("disparou")
         },true);
       } else if (elem.attachEvent) { // IE DOM
         elem.attachEvent("on"+evt, func);
@@ -54,9 +52,6 @@
         window.setTimeout(function(){
           Private._onReadyIframe();
         },1);
-        $iframe.onload = function(){
-          Private._onReadyIframe();
-        };
 
     var Private = {
 
