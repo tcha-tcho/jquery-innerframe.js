@@ -26,7 +26,7 @@ var options =
     ,height     : "100px"
     ,style      : {}
     ,scrolling  : "no"
-    ,frameborder: 0 
+    ,frameBorder: 0 
     ,name       : "" 
     ,seamless   : "seamless" 
     ,srcdoc     : "" 
