@@ -73,6 +73,12 @@
 
       _onReadyInnerIframe: function(body){
         Private._contentWindow().stop();
+        body.find("[src]:not(script)").each(function(){
+          var src = $(this).attr("src");
+          var timestamp = new Date().getTime();
+          src = src + (((!!src.match(/\?/ig))?"&":"?")+"innerframe_nocache="+timestamp);
+          $(this).attr("src",src)
+        })
         opts.onReady(body);
       }
     };
