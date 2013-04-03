@@ -58,7 +58,7 @@
         content[$iframe.id + "_im_ready"] = function(){
           Private._onReadyInnerIframe($('body',doc))
         }
-        doc.write('<html><head></head><body>' + str + '</body></html>'
+        doc.write('<html><head></head><body style="margin:0;padding:0;">' + str + '</body></html>'
           + '<script id="innerframe_interval">function innerframe_interval() {if (typeof '
           + $iframe.id + '_im_ready == "function") {'
           + 'document.getElementsByTagName("body")[0].removeChild(document.getElementById("innerframe_interval"));'
@@ -86,4 +86,3 @@
   };
 
 })( jQuery );
-
