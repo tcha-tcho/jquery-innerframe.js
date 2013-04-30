@@ -32,7 +32,7 @@
 
     //create new iframe
     var $iframe = document.createElement('iframe');
-        $iframe.id = $this.attr("id")+"_innerframe_iframe";
+        $iframe.id = "innerframe_iframe_"+new Date().getTime();
         for (option in opts) {
           if (typeof opts[option] != 'function') {
             $iframe.setAttribute(option, opts[option]);
@@ -55,15 +55,15 @@
       _write: function(str){
         var content = Private._contentWindow()
         var doc = content.document;
-        content[$iframe.id + "_im_ready"] = function(){
-          Private._onReadyInnerIframe($('body',doc))
-        }
+        window[$iframe.id+'_im_ready'] = function(_this) {
+          $doc = $(_this)
+          $doc.find("#innerframe_interval").remove();
+          Private._onReadyInnerIframe($doc);
+        };
         doc.write('<html><head></head><body style="margin:0;padding:0;">' + str + '</body></html>'
-          + '<script id="innerframe_interval">function innerframe_interval() {if (typeof '
-          + $iframe.id + '_im_ready == "function") {'
-          + 'document.getElementsByTagName("body")[0].removeChild(document.getElementById("innerframe_interval"));'
-          + $iframe.id + '_im_ready();'
-          +'} else {innerframe_interval()}};innerframe_interval();</script>')
+          + '<script id="innerframe_interval">'
+            + 'window.parent.'+$iframe.id+'_im_ready(document.getElementsByTagName("body")[0]);'
+          + '</script>')
         $($iframe).attr("style", opts.style)
       },
 
