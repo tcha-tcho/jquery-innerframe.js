@@ -29,10 +29,10 @@
 
     //merge dafaults/settings
     var opts = options ? $.extend(defaults, options) : defaults;
-
+    
     //create new iframe
     var $iframe = document.createElement('iframe');
-        $iframe.id = "innerframe_iframe_"+new Date().getTime();
+        $iframe.id = ("innerframe_"+new Date().getTime()+Math.random()).replace(".","_");
         for (option in opts) {
           if (typeof opts[option] != 'function') {
             $iframe.setAttribute(option, opts[option]);
@@ -43,7 +43,7 @@
         },1);
 
     var Private = {
-
+      _iframeWindow: null,
       _contentWindow: function() {
         if ($iframe.contentWindow.document) {
           return $iframe.contentWindow;  
@@ -55,14 +55,26 @@
       _write: function(str){
         var content = Private._contentWindow()
         var doc = content.document;
-        window[$iframe.id+'_im_ready'] = function(_this) {
-          $doc = $(_this)
+        window[$iframe.id+'_im_ready'] = function(_iframeWindow) {
+          Private._iframeWindow = _iframeWindow;
+          $doc = $('body', _iframeWindow.document);
           $doc.find("#innerframe_interval").remove();
           Private._onReadyInnerIframe($doc);
         };
+
         doc.write('<html><head></head><body style="margin:0;padding:0;">' + str + '</body></html>'
           + '<script id="innerframe_interval">'
-            + 'window.parent.'+$iframe.id+'_im_ready(document.getElementsByTagName("body")[0]);'
+            + 'if (typeof window.stop == \'undefined\') {'
+               + 'window.__onloadIframe'+ $iframe.id +' = window.setInterval(function(){'
+                 + 'if (typeof document.getElementsByTagName("body")[0] != \'undefined\'){'
+                   + 'clearInterval(window.__onloadIframe'+ $iframe.id +');'
+                   + 'window.parent.'+ $iframe.id +'_im_ready(window);'
+                 + '}'
+               +'}, 1);'
+            + '} else {' 
+              + 'window.setTimeout(function(){window.parent.'+$iframe.id+'_im_ready(window)}, 30);'
+              + 'window.stop();'
+            + '}'
           + '</script>')
         $($iframe).attr("style", opts.style)
       },
@@ -72,7 +84,6 @@
       },
 
       _onReadyInnerIframe: function(body){
-        Private._contentWindow().stop();
         body.find("[src]:not(script)").each(function(){
           var src = $(this).attr("src");
           var timestamp = new Date().getTime();
