@@ -43,7 +43,6 @@
         },1);
 
     var Private = {
-      _iframeWindow: null,
       _contentWindow: function() {
         if ($iframe.contentWindow.document) {
           return $iframe.contentWindow;  
@@ -53,28 +52,23 @@
       },
 
       _write: function(str){
-        var content = Private._contentWindow()
-        var doc = content.document;
+        var doc = Private._contentWindow().document;
         window[$iframe.id+'_im_ready'] = function(_iframeWindow) {
-          Private._iframeWindow = _iframeWindow;
           $doc = $('body', _iframeWindow.document);
           $doc.find("#innerframe_interval").remove();
           Private._onReadyInnerIframe($doc);
         };
-
         doc.write('<html><head></head><body style="margin:0;padding:0;">' + str + '</body></html>'
           + '<script id="innerframe_interval">'
-            + 'if (typeof window.stop == \'undefined\') {'
-               + 'window.__onloadIframe'+ $iframe.id +' = window.setInterval(function(){'
-                 + 'if (typeof document.getElementsByTagName("body")[0] != \'undefined\'){'
-                   + 'clearInterval(window.__onloadIframe'+ $iframe.id +');'
-                   + 'window.parent.'+ $iframe.id +'_im_ready(window);'
-                 + '}'
-               +'}, 1);'
-            + '} else {' 
-              + 'window.setTimeout(function(){window.parent.'+$iframe.id+'_im_ready(window)}, 30);'
-              + 'window.stop();'
-            + '}'
+            + 'window.__onloadIframe'+ $iframe.id +' = window.setInterval(function(){'
+              + 'if (typeof document.getElementsByTagName("body")[0] != \'undefined\'){'
+                + 'clearInterval(window.__onloadIframe'+ $iframe.id +');'
+                + 'window.parent.'+ $iframe.id +'_im_ready(window);'
+                + 'if (typeof window.stop != \'undefined\') {'
+                   + 'window.stop();'
+                + '}'
+              + '}'
+            +'}, 1);'
           + '</script>')
         $($iframe).attr("style", opts.style)
       },
