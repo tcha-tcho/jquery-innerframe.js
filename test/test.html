@@ -8,7 +8,7 @@
   <div id="qunit"></div>
   <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
   <script src="./qunit-git.js"></script>
-  <script src="../jquery.innerframe.min.js"></script>
+  <script src="../jquery.innerframe.js"></script>
   <script type="text/javascript">
 
     test( "Is present", function() {
@@ -61,7 +61,17 @@
           body.append("--testing2...");
           test( "Div2 receives new text - editing body", function() {
             expect(1);
-            equal( body.text(), "test--testing2..." ,"Div1 has the content expected" );
+            equal( body.text(), "test--testing2..." ,"Div2 has the content expected" );
+          });
+        }
+      });
+      $('#div3').innerframe('<script type="text\/javascript">document.write("Writing leaving the rest intact")<\/script>',{
+        style:"background-color:lightgrey; margin:5px; border: 1px solid gray;"
+        ,onReady:function(body){
+          test( "Div3 has the right content", function() {
+            expect(1);
+            body.find("script").remove();
+            equal( body.text(), "Writing leaving the rest intact" ,"Div3 has the content expected" );
           });
         }
       });
@@ -73,6 +83,7 @@
   <div style="display:block; margin-top:20px; border: 1px dotted gray;">
     <div id="div1"></div>
     <div id="div2"></div>
+    <div id="div3"></div>
   </div>
 </body>
 </html>
