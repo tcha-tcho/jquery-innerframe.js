@@ -58,7 +58,11 @@
           $doc.find("#innerframe_interval").remove();
           Private._onReadyInnerIframe($doc);
         };
-        doc.write('<html><head></head><body style="margin:0;padding:0;">' + str + '</body></html>'
+
+        
+        doc.write(
+          '<html><head><meta http-Equiv="Cache-Control" Content="no-cache"><meta http-Equiv="Pragma" Content="no-cache"><meta http-Equiv="Expires" Content="0"></head>'
+          +'<body style="margin:0;padding:0;">' + str + '</body></html>'
           + '<script id="innerframe_interval">'
             + 'window.__onloadIframe'+ $iframe.id +' = window.setInterval(function(){'
               + 'if (typeof document.getElementsByTagName("body")[0] != \'undefined\'){'
@@ -78,12 +82,6 @@
       },
 
       _onReadyInnerIframe: function(body){
-        body.find("[src]:not(script)").each(function(){
-          var src = $(this).attr("src");
-          var timestamp = new Date().getTime();
-          src = src + (((!!src.match(/\?/ig))?"&":"?")+"innerframe_nocache="+timestamp);
-          $(this).attr("src",src)
-        })
         opts.onReady(body);
       }
     };

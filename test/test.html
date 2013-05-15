@@ -8,9 +8,8 @@
   <div id="qunit"></div>
   <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
   <script src="./qunit-git.js"></script>
-  <script src="../jquery.innerframe.js"></script>
+  <script src="../jquery.innerframe.min.js"></script>
   <script type="text/javascript">
-
     test( "Is present", function() {
       ok( typeof $.fn.innerframe != "undefined", "Global is here!" );
       ok( typeof $("#div1").innerframe != "undefined", "Global is applied to elements!" );
@@ -75,6 +74,15 @@
           });
         }
       });
+      $('#div5').innerframe($('#div4').html(),{
+        style:"background-color:#d9d9d9; margin:5px; border: 1px solid gray;width:350px;height:350px;border:none;"
+        ,onReady:function(body){
+          test( "Div5 has the image loaded", function() {
+            expect(1);
+            ok( true , "Div5 show the image");
+          });
+        }
+      });
       basic_test()
     });
 
@@ -84,6 +92,9 @@
     <div id="div1"></div>
     <div id="div2"></div>
     <div id="div3"></div>
+    <div id="div4" style="display:none;"><img class="img_test" src="./chicken.gif"></div>
+    <big>If the chicken is here,<br>the code is dumping the cache.&darr;</big>
+    <div id="div5"></div>
   </div>
 </body>
 </html>
