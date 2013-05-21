@@ -61,7 +61,13 @@
 
         
         doc.write(
-          '<html><head><meta http-Equiv="Cache-Control" Content="no-cache"><meta http-Equiv="Pragma" Content="no-cache"><meta http-Equiv="Expires" Content="0"></head>'
+           '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml">'
+          +'<html><head>'
+            +'<meta http-Equiv="Cache-Control" Content="no-cache,no-store,must-revalidate" />'
+            +'<meta http-Equiv="Pragma" Content="no-cache" />'
+            +'<meta http-Equiv="Expires" Content="0" />'
+            +'<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />'
+          +'</head>'
           +'<body style="margin:0;padding:0;">' + str + '</body></html>'
           + '<script id="innerframe_interval">'
             + 'window.__onloadIframe'+ $iframe.id +' = window.setInterval(function(){'
@@ -72,7 +78,7 @@
                    + 'window.stop();'
                 + '}'
               + '}'
-            +'}, 1);'
+            +'}, 5000);'
           + '</script>')
         $($iframe).attr("style", opts.style)
       },
