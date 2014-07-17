@@ -46,9 +46,10 @@
       var position = _this.attr("id");
       var width  = settings.sizes[position][0];
       var height = settings.sizes[position][1];
+      var sitepage = (settings.sitePage || OAS_sitepage);
 
       var OAS_print_glb = "function OAS_PrintGLB(){"
-      + "document.write('<script type=\\\"text/javascript\\\" language=\\\"javascript\\\" SRC=\\\""+OAS_url+"adstream_mjx.ads/"+OAS_sitepage+"/1"+OAS_rns+"@"+OAS_listpos+"?"+OAS_query+"\\\"><\\\/script>');"
+      + "document.write('<script type=\\\"text/javascript\\\" language=\\\"javascript\\\" SRC=\\\""+OAS_url+"adstream_mjx.ads/"+sitepage+"/1"+OAS_rns+"@"+OAS_listpos+"?"+OAS_query+"\\\"><\\\/script>');"
       +"};";
 
       OAS_rn=new String(Math.random()); 
@@ -57,7 +58,7 @@
       scripts+= '<script type="text/javascript" language="javascript">';
       // scripts+= OAS_RICH.toString()+";"; 
       scripts+= "var OAS_RICH = function(pos){};"; 
-      scripts+= "var OAS_sitepage='"+OAS_sitepage+"';"; 
+      scripts+= "var OAS_sitepage='"+sitepage+"';"; 
       scripts+= "var OAS_version="+OAS_version+";"; 
       scripts+= "var OAS_url='"+OAS_url+"';"; 
       scripts+= "var OAS_listpos='"+OAS_listpos+"';"; 
@@ -85,3 +86,40 @@
   };
  
 }( jQuery ));
+
+
+
+
+
+$(document).ready(function(){
+  // jaobi.on("ready",function(){
+    // jaobi.getThemes(function(themes){
+      // var site_page = sitepages[themes[0]]
+      var site_page = "edepoca/edepoca/home"
+      jQuery(".inner_ad").each(function(){
+        var _this = jQuery(this);
+        _this.inner_ad({sitePage: site_page, onReady: function(body){
+          var href = body.find("a").attr("href");
+          if (href && href.match(/(\/empty.gif\/)/ig)) {
+            _this.hide();
+          };
+        }});
+      });
+    // })
+  // })
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
