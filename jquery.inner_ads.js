@@ -1,5 +1,6 @@
 (function ( $ ) {
 
+  if ($.fn.inner_ad) return false; //already declared
   if (!$.fn.innerframe) {
     console.log("This code depends on innerframe")
     return false;
