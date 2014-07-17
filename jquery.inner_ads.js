@@ -44,10 +44,10 @@
         return false;
       };
       var position = _this.attr("data-position");
-      console.log(position,settings)
       var width  = settings.sizes[position][0];
       var height = settings.sizes[position][1];
-      var sitepage = (settings.sitePage || OAS_sitepage);
+      var sitepage = _this.attr("data-sitepage");
+      sitepage = (sitepage || settings.sitePage || OAS_sitepage);
 
       var OAS_print_glb = "function OAS_PrintGLB(){"
       + "document.write('<script type=\\\"text/javascript\\\" language=\\\"javascript\\\" SRC=\\\""+OAS_url+"adstream_mjx.ads/"+sitepage+"/1"+OAS_rns+"@"+OAS_listpos+"?"+OAS_query+"\\\"><\\\/script>');"
