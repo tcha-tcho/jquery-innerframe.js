@@ -43,7 +43,8 @@
         console.log("This code depends on OAS system");
         return false;
       };
-      var position = _this.attr("id");
+      var position = _this.attr("data-position");
+      console.log(position,settings)
       var width  = settings.sizes[position][0];
       var height = settings.sizes[position][1];
       var sitepage = (settings.sitePage || OAS_sitepage);
@@ -76,6 +77,7 @@
       scripts+= '</script>';
       scripts+= '<script type="text/javascript" language="javascript">OAS_PrintGLB();</script><script type="text/javascript" language="javascript">OAS_AD( "'+position+'" );</script>';
 
+      _this.height(height).width(width);
 
       return _this.innerframe(scripts,{width:width,height:height,style:"width:"+width+"px;height:"+height+"px;",onReady:function(body){
         settings.onReady(body);
